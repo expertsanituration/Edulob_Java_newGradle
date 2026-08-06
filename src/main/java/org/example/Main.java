@@ -3,6 +3,7 @@ package org.example;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -134,13 +135,7 @@ public class Main {
 
     }
 
-    void doAdd(String author, String title, String publisher, int year) {
-        Book tempBook = new Book();
-        tempBook.author = author;
-        tempBook.title = title;
-        tempBook.publisher = publisher;
-        tempBook.year = year;
-        library.add(tempBook);
+    void toJson() {
 
         try (FileWriter writer = new FileWriter("dataBuku.db")) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -148,9 +143,30 @@ public class Main {
             String jsonResult = gson.toJson(library);
             writer.write(jsonResult);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
+    }
+
+    void fromJson() {
+
+        try (FileReader reader = new FileReader("dataBuku.db")) {
+
+            
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    void doAdd(String author, String title, String publisher, int year) {
+        Book tempBook = new Book();
+        tempBook.author = author;
+        tempBook.title = title;
+        tempBook.publisher = publisher;
+        tempBook.year = year;
+        library.add(tempBook);
     }
 
     void doDelete(int criteria, String value) {
