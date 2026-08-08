@@ -17,6 +17,32 @@ class Book {
 
 }
 
+class LibraryFromJson{
+    ArrayList<Book> sampleLibrary;
+
+    ArrayList<Book> parseSampleLibrary() {
+
+        if (sampleLibrary != null) {
+
+            ArrayList<Book> library = new ArrayList<>();
+
+            int len = sampleLibrary.size();
+
+            for (int i = 0; i < len; i++) {
+                Book tempSample = sampleLibrary.get(i);
+                library.add(tempSample);
+            }
+
+            return library;
+
+        } else {
+            System.out.println("ERR!");
+        }
+
+        return null;
+    }
+}
+
 public class Main {
     static ArrayList<Book> library = new ArrayList<>();
 
@@ -135,24 +161,33 @@ public class Main {
 
     }
 
-    void toJson() {
+    void reachJson(int action) {
 
-        try (FileWriter writer = new FileWriter("dataBuku.db")) {
+        if (action == 1 || action == 2) {
+
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-            String jsonResult = gson.toJson(library);
-            writer.write(jsonResult);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            if (action == 1) {
+                try (FileWriter writer = new FileWriter("dataBuku.db")) {
 
+                    String jsonResult = gson.toJson(library);
+                    writer.write(jsonResult);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                fromJson(gson);
+            }
+        }
     }
 
-    void fromJson() {
+    void fromJson(Gson gson) {
 
         try (FileReader reader = new FileReader("dataBuku.db")) {
 
-            
+            LibraryFromJson sampleLibrary = gson.fromJson(reader, LibraryFromJson.class);
+
+            //sampleLibrary.parseSampleLibrary();
 
         } catch (Exception e) {
             e.printStackTrace();
